@@ -10,6 +10,13 @@ This project leverages EEG data from a Muse headset to control a wheelchair usin
 - [Setup Instructions](#setup-instructions)
 - [Usage](#usage)
 - [Technical Details](#technical-details)
+  - [Data Acquisition](#data-acquisition)
+  - [Data Preprocessing](#data-preprocessing)
+  - [Epoching and Feature Extraction](#epoching-and-feature-extraction)
+  - [Machine Learning Model](#machine-learning-model)
+  - [Real-Time Classification](#real-time-classification)
+  - [Arduino Control](#arduino-control)
+- [Machine Learning Mathematical Details](#machine-learning-mathematical-details)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -64,19 +71,6 @@ The Mind-Controlled Wheelchair project is an innovative solution that uses EEG s
 
 4. Run the `realtime_classifier.py` script to start classifying real-time EEG data and sending the commands to the Arduino.
 
-### Directory Structure
-mind-controlled-wheelchair/
-├── arduino/
-│ └── wheelchair_control.ino
-├── data/
-│ └── eeg_data.csv
-├── model/
-│ └── train_model.py
-│ └── model.joblib
-├── src/
-│ └── realtime_classifier.py
-├── README.md
-
 
 ## Usage
 
@@ -84,7 +78,7 @@ mind-controlled-wheelchair/
 2. Open a terminal and navigate to the project directory.
 3. Run the real-time classifier:
     ```bash
-    python src/realTime.py
+    python src/realtime_classifier.py
     ```
 4. The classifier will process the incoming EEG data and send commands to the Arduino to control the wheelchair.
 
@@ -117,6 +111,46 @@ The real-time classifier script processes incoming EEG data, extracts features, 
 ### Arduino Control
 
 The Arduino script (`wheelchair_control.ino`) receives the classification results and controls the wheelchair motors accordingly. The commands are mapped to specific motor actions to move the wheelchair in the desired direction.
+
+## Machine Learning Mathematical Details
+
+### Notch Filter
+
+A notch filter is designed to remove specific frequency components from the signal. In this case, a 4th order Butterworth filter is used to remove powerline noise:
+\[ \text{NOTCH\_B}, \text{NOTCH\_A} = \text{butter}(4, \left[\frac{55}{128}, \frac{65}{128}\right], \text{btype}='bandstop') \]
+
+### Fast Fourier Transform (FFT)
+
+The power spectral density (PSD) is calculated using FFT. The FFT converts the time-domain signal into the frequency domain:
+\[ Y = \text{FFT}(x, N) \]
+where \( N \) is the number of points.
+
+### Power Spectral Density (PSD)
+
+The PSD is used to find the power of different frequency bands:
+\[ \text{PSD} = 2 \times \left| Y \right|^2 \]
+The frequency bands are then averaged to extract features:
+- Delta (0.5-4 Hz)
+- Theta (4-8 Hz)
+- Alpha (8-12 Hz)
+- Beta (12-30 Hz)
+
+### Log Transformation
+
+To stabilize the variance, the power values are log-transformed:
+\[ \text{Feature Vector} = \log_{10}(\text{Power Values}) \]
+
+### Support Vector Machine (SVM)
+
+The SVM model is trained using these features. The objective is to find a hyperplane that separates the data into classes:
+\[ \text{minimize} \quad \frac{1}{2} \left\| w \right\|^2 \]
+subject to:
+\[ y_i (w \cdot x_i + b) \geq 1 - \xi_i \]
+where \( w \) is the weight vector, \( x_i \) are the features, \( y_i \) are the labels, \( b \) is the bias, and \( \xi_i \) are slack variables.
+
+### Real-Time Classification
+
+For real-time classification, the preprocessed data is segmented into epochs, features are extracted, and the SVM model predicts the class. The results are sent to the Arduino to control the wheelchair.
 
 ## Contributing
 
