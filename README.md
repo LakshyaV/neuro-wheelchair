@@ -4,8 +4,6 @@ This project leverages EEG data from a Muse headset to control a wheelchair usin
 
 <img src="https://github.com/user-attachments/assets/9ad9c022-01a3-462d-b341-47a9e3bf3e1b/image_50372865" alt="Mind-Controlled Wheelchair" width="400">
 
-<img src="images/wheelchair.jpg" alt="Mind-Controlled Wheelchair" width="400">
-
 ## Table of Contents
 
 - [Introduction](#introduction)
