@@ -2,7 +2,7 @@
 
 This project leverages EEG data from a Muse headset to control a wheelchair using machine learning classification. The EEG data is processed and classified in real-time, and the classification results are sent to an Arduino which controls the wheelchair movements.
 
-<img src="https://github.com/user-attachments/assets/281f2171-3195-4668-bf5a-cb52502bc661" alt="Mind-Controlled Wheelchair" width="250">
+<img src="https://github.com/user-attachments/assets/281f2171-3195-4668-bf5a-cb52502bc661" alt="Mind-Controlled Wheelchair" width="330">
 
 ## Table of Contents
 
