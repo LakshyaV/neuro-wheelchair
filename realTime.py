@@ -1,5 +1,3 @@
-finish the code:
-
 import argparse
 import joblib
 import numpy as np
@@ -12,7 +10,7 @@ from sklearn.svm import SVC
 from threading import Thread
 
 # Load the pre-trained model
-model = joblib.load('your_model_file.joblib')  # Replace with your actual model file
+model = joblib.load('model.joblib')
 
 # Define the notch filter
 NOTCH_B, NOTCH_A = butter(4, np.array([55, 65]) / (256 / 2), btype='bandstop')
@@ -141,4 +139,16 @@ def main():
 
     # Keep the main thread running
     try:
-        while True
+        while True:
+            pass
+    except KeyboardInterrupt:
+        server.shutdown()
+
+if __name__ == "__main__":
+    # Preprocess the data using the same scaler as the training data
+    scaler = StandardScaler()
+    fs = 256  # Example sampling frequency, change according to your data
+    samples_epoch = 256  # Example epoch length, change according to your needs
+    samples_overlap = 128  # Example overlap, change according to your needs
+
+    main()
