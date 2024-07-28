@@ -52,13 +52,13 @@ The Mind-Controlled Wheelchair project is an innovative solution that uses EEG s
    - IN3 to pin 4
    - IN4 to pin 5
 3. Connect the L298N motor driver to the power supply and motors.
-4. Upload the `wheelchair_control.ino` file to the Arduino.
+4. Upload the `Arduino.ino` file to the Arduino.
 
 ### Python Environment Setup
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/mind-controlled-wheelchair.git
+    git clone https://github.com/LakshyaV/neuro-wheelchair.git
     cd mind-controlled-wheelchair
     ```
 
@@ -67,9 +67,9 @@ The Mind-Controlled Wheelchair project is an innovative solution that uses EEG s
     pip install pandas numpy scipy scikit-learn python-osc joblib
     ```
 
-3. Train your machine learning model using the provided `train_model.py` script (ensure your EEG data is in the correct format) and save the model as `model.joblib`.
+3. Train your machine learning model using the provided `classification.py` script (ensure your EEG data is in the correct format) and save the model as `model.joblib`.
 
-4. Run the `realtime_classifier.py` script to start classifying real-time EEG data and sending the commands to the Arduino.
+4. Run the `realTime.py` script to start classifying real-time EEG data and sending the commands to the Arduino.
 
 
 ## Usage
@@ -78,7 +78,7 @@ The Mind-Controlled Wheelchair project is an innovative solution that uses EEG s
 2. Open a terminal and navigate to the project directory.
 3. Run the real-time classifier:
     ```bash
-    python src/realtime_classifier.py
+    python src/realTime.py
     ```
 4. The classifier will process the incoming EEG data and send commands to the Arduino to control the wheelchair.
 
