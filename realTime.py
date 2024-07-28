@@ -2,6 +2,7 @@ import argparse
 import joblib
 import numpy as np
 import pandas as pd
+import serial  # Import pySerial for serial communication
 from pythonosc.dispatcher import Dispatcher
 from pythonosc.osc_server import ThreadingOSCUDPServer
 from scipy.signal import butter, lfilter, lfilter_zi
@@ -17,6 +18,9 @@ NOTCH_B, NOTCH_A = butter(4, np.array([55, 65]) / (256 / 2), btype='bandstop')
 
 # Global data buffer to store incoming data
 data_buffer = []
+
+# Initialize serial communication
+ser = serial.Serial('COM3', 9600)  # Replace 'COM3' with your actual serial port
 
 def preprocess_data(data, notch_b, notch_a, scaler):
     """Preprocess the data: apply notch filter and scaling."""
@@ -93,6 +97,8 @@ def classify_data():
             predictions = model.predict(features)
             # Handle predictions (e.g., print, log, or take action)
             print(f"Predictions: {predictions}")
+            for prediction in predictions:
+                ser.write(str(prediction).encode())  # Send prediction to Arduino
             data_buffer.clear()
 
 # Handler function to process incoming OSC messages
@@ -143,6 +149,7 @@ def main():
             pass
     except KeyboardInterrupt:
         server.shutdown()
+        ser.close()  # Close the serial connection
 
 if __name__ == "__main__":
     # Preprocess the data using the same scaler as the training data
