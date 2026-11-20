@@ -316,5 +316,5 @@ which a test checks.
 | A pickled model | Breaks with library versions | Arrays and JSON, self-test on every load |
 | Every window's label sent to the motors | The chair follows the classifier's noise | Evidence accumulation with hysteresis, tuned by replay |
 | A digit over serial, motors latched | A crashed laptop leaves the chair driving | Checksummed frames, watchdog, ramps, emergency-stop latch |
-| No way to stop but another classification | | A jaw-clench reflex, about a quarter of a second |
+| No way to stop but another classification | | A jaw-clench reflex that stops the chair within 0.4 s |
 | Copied library files for Bluetooth | | Standard stream sources: OSC and LSL |

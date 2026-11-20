@@ -1,5 +1,8 @@
 # Mind-Controlled Wheelchair
 
+[![CI](https://github.com/LakshyaV/neuro-wheelchair/actions/workflows/ci.yml/badge.svg)](https://github.com/LakshyaV/neuro-wheelchair/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 Drive a wheelchair from a Muse EEG headband. The headset's signal is decoded
 into commands on a laptop, a safety supervisor decides whether the chair may
 act on them, and an Arduino drives the motors and stops them by itself when
@@ -26,7 +29,7 @@ Muse headband ──Bluetooth──▶ stream app (Petal Metrics, muselsl, Mind 
               ▼                    ▼                     ▼
         signal quality       intent model           clench detector
         (artefacts, lost     (features relative     (the stop reflex,
-         electrodes)          to today's baseline,   a quarter of a second)
+         electrodes)          to today's baseline,   within 0.4 s)
                               shrinkage LDA)
               │                    ▼                     │
               │              arbiter: evidence           │
