@@ -1,0 +1,5 @@
+# For the scripts in this directory only. The package itself needs none of these.
+gdown>=5.0          # muse_recordings.py --download
+scikit-learn>=1.4   # the 2024 reference method (linear SVM)
+mne>=1.6            # electrode_positions.py
+# torch>=2.2        # muse_recordings.py --eegnet
