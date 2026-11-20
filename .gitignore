@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Recordings, trained models and downloaded reference data stay on the machine they were made on
+/data/
+/runs/
+/evidence-data/
+
+# Firmware build products
+firmware/**/build/
+*.elf
+*.hex
+
+# Editors and OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+.env

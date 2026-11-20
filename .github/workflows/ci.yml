@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install ruff==0.17.6
+      - run: ruff check .
+      - run: ruff format --check .
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - name: Install
+        run: pip install -e ".[all]"
+      - name: Test
+        # Includes the motor-controller sketch, compiled for the host and run against a mock board.
+        run: pytest
+
+  firmware:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - id: detect
+        run: echo "present=$([ -d firmware/wheelchair_controller ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+      - uses: arduino/setup-arduino-cli@v2
+        if: steps.detect.outputs.present == 'true'
+      - name: Compile for Arduino Uno
+        if: steps.detect.outputs.present == 'true'
+        run: |
+          arduino-cli core update-index
+          arduino-cli core install arduino:avr
+          arduino-cli compile --fqbn arduino:avr:uno --warnings all --output-dir build/uno firmware/wheelchair_controller
+          arduino-cli compile --fqbn arduino:avr:uno --warnings all \
+            --build-property "compiler.cpp.extra_flags=-DNWC_PWM_ON_ENABLE=1" firmware/wheelchair_controller
+          arduino-cli compile --fqbn arduino:avr:uno --warnings all \
+            --build-property "compiler.cpp.extra_flags=-DNWC_ESTOP_PIN=7 -DNWC_MIN_DUTY=60" firmware/wheelchair_controller
+      - name: Keep the default build
+        if: steps.detect.outputs.present == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheelchair_controller-uno
+          path: build/uno/wheelchair_controller.ino.hex
+          if-no-files-found: error

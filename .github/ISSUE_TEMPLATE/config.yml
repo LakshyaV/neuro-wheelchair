@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Design and the evidence behind it
+    url: https://github.com/LakshyaV/neuro-wheelchair/blob/main/docs/architecture.md
+    about: Why the system is built the way it is.
