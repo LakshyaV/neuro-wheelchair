@@ -1,0 +1,31 @@
+name: Bug report
+description: Something does not behave as documented
+labels: ["type: bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: Include the command you ran and its output.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: setup
+    attributes:
+      label: Setup
+      description: |
+        Headset and how it is streamed (OSC or LSL, which app), output of `nwc monitor`,
+        motor controller and wiring variant, `nwc --version`, operating system and Python version.
+    validations:
+      required: true
+  - type: textarea
+    id: safety
+    attributes:
+      label: Did the chair move when it should not have, or fail to stop?
+      description: If so, say exactly what was asked for and what happened. These are fixed first.

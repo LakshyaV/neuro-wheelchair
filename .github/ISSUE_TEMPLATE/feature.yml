@@ -1,0 +1,30 @@
+name: Feature or improvement
+description: Propose a change to the decoder, the controller, the firmware or the tooling
+labels: ["type: feature"]
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: What should be possible that is not today, and why does it matter?
+    validations:
+      required: true
+  - type: textarea
+    id: design
+    attributes:
+      label: Proposed design
+      description: Interfaces, algorithms, alternatives considered.
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: How will we know it works? Prefer held-out runs, the closed-loop simulation and the host-compiled firmware over inspection.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options: [io, dsp, sim, decode, control, link, firmware, runtime, cli, docs, infra]
+    validations:
+      required: true
